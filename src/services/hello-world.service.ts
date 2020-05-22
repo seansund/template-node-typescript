@@ -1,19 +1,29 @@
-import {HelloWorldApi} from './hello-world.api';
+import {Span, SpanOptions} from 'opentracing';
 import {Inject} from 'typescript-ioc';
-import {LoggerApi} from '../logger';
+
+import {HelloWorldApi} from './hello-world.api';
+import {TracerApi} from '../tracer';
+import {infoEvent} from '../util/opentracing/formatters';
 
 export class HelloWorldService implements HelloWorldApi {
-  logger: LoggerApi;
+  @Inject
+  private tracer: TracerApi;
 
-  constructor(
-    @Inject
-    logger: LoggerApi,
-  ) {
-    this.logger = logger.child('HelloWorldService');
+  startSpan(methodName: string, tags?: any): Span {
+    const options: SpanOptions = tags ? {tags} : {};
+
+    return this.tracer.startSpan(`HelloWorldService.${methodName}`, options);
   }
 
   async greeting(name: string = 'World'): Promise<string> {
-    this.logger.info(`Generating greeting for ${name}`);
-    return `Hello, ${name}!`;
+    const span: Span = this.startSpan('greeting', {name})
+
+    try {
+      span.log(infoEvent(`Generating greeting for ${name}`));
+
+      return `Hello, ${name}!`;
+    } finally {
+      span.finish();
+    }
   }
 }

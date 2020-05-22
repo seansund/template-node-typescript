@@ -1,5 +1,5 @@
-import * as pino from 'pino';
-import * as expressPino from 'express-pino-logger';
+import pino = require('pino');
+import expressPino = require('express-pino-logger');
 
 import {LoggerApi} from './logger.api';
 
@@ -11,31 +11,31 @@ class ChildLogger extends LoggerApi {
     super();
   }
 
-  error(message: any, ...args: any): void {
+  error(message: any, ...args: any[]): void {
     this.logger.error(message, ...args);
   }
 
-  log(message: any, ...args: any): void {
+  log(message: any, ...args: any[]): void {
     this.info(message, ...args);
   }
 
-  debug(message: any, ...args: any): void {
+  debug(message: any, ...args: any[]): void {
     this.logger.debug(message, ...args);
   }
 
-  info(message: any, ...args: any): void {
+  info(message: any, ...args: any[]): void {
     this.logger.info(message, ...args);
   }
 
-  warn(message: any, ...args: any): void {
+  warn(message: any, ...args: any[]): void {
     this.logger.warn(message, ...args);
   }
 
-  fatal(message: any, ...args: any): void {
+  fatal(message: any, ...args: any[]): void {
     this.logger.fatal(message, ...args);
   }
 
-  trace(message: any, ...args: any): void {
+  trace(message: any, ...args: any[]): void {
     this.logger.trace(message, ...args);
   }
 
