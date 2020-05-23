@@ -61,6 +61,15 @@ spec:
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
+            - name: JAEGER_ENABLED
+              value: {{ include "jaeger.enabled" . }}
+          envFrom:
+            - configMapRef:
+                name: jaeger-config
+                optional: true
+            - configMapRef:
+                name: jaeger-access
+                optional: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

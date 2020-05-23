@@ -1,0 +1,14 @@
+{{- if .Values.jaeger.create }}
+{{- if or (or .Values.jaeger.user .Values.jaeger.password) .Values.jaeger.authToken }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: jaeger-access
+  labels:
+    app: jaeger
+stringData:
+  JAEGER_AUTH_TOKEN: {{ .Values.jaeger.authToken }}
+  JAEGER_USER: {{ .Values.jaeger.user }}
+  JAEGER_PASSWORD: {{ .Values.jaeger.password }}
+{{- end }}
+{{- end }}

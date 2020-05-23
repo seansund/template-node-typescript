@@ -8,6 +8,8 @@ function initTracer() {
 }
 initTracer();
 
-export const noopTracerFactory: ObjectFactory = () => {
+const noopTracerFactory: ObjectFactory = () => {
   return globalTracer();
 }
+
+export default noopTracerFactory;

@@ -59,4 +59,4 @@ export class SimpleWorker implements WorkerApi {
   }
 }
 
-export const worker: WorkerApi = workerManager.registerWorker(Container.get(SimpleWorker));
+//export const worker: WorkerApi = workerManager.registerWorker(Container.get(SimpleWorker));

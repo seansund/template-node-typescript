@@ -1,18 +1,17 @@
-import * as express from 'express';
+import express = require('express');
+import {AddressInfo} from 'net';
 import {Server} from 'typescript-rest';
 import {Inject} from 'typescript-ioc';
-import {AddressInfo} from 'net';
-
-import {parseCsvString} from './util/string-util';
-import * as npmPackage from '../package.json';
-import {LoggerApi} from './logger';
-import {TracerApi} from './tracer';
+import opentracingMiddleware from 'express-opentracing';
 import fs = require('fs');
 import http = require('http');
 import path = require('path');
 import cors = require('cors');
 
-const opentracing = require('express-opentracing');
+import {parseCsvString} from './util/string-util';
+import * as npmPackage from '../package.json';
+import {LoggerApi} from './logger';
+import {TracerApi} from './tracer';
 
 
 const config = npmPackage.config || {
@@ -35,8 +34,8 @@ export class ApiServer {
 
   constructor(private readonly app: express.Application = express(), apiContext = configApiContext) {
 
-    this.app.use(opentracing(this.tracer))
-    this.logger.apply(this.app);
+    this.app.use(opentracingMiddleware({tracer: this.tracer}));
+//    this.logger.apply(this.app);
     this.app.use(cors());
 
     if (!apiContext || apiContext === '/') {

@@ -33,6 +33,8 @@ function initTracer(): Tracer {
 }
 initTracer();
 
-export const jaegerTracerFactory: ObjectFactory = () => {
+const jaegerTracerFactory: ObjectFactory = () => {
   return globalTracer();
 }
+
+export default jaegerTracerFactory;

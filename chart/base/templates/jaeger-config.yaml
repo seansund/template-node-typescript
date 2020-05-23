@@ -1,0 +1,46 @@
+{{- if .Values.jaeger.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jaeger-config
+  labels:
+    app: jaeger
+data:
+  {{- if .Values.jaeger.serviceName }}
+  JAEGER_SERVICE_NAME: {{ .Values.jaeger.serviceName }}
+  {{- end }}
+  {{- if .Values.jaeger.tags }}
+  JAEGER_TAGS: {{ .Values.jaeger.tags }}
+  {{- end }}
+  {{- if .Values.jaeger.disabled }}
+  JAEGER_DISABLED: {{ .Values.jaeger.disabled }}
+  {{- end }}
+  {{- if .Values.jaeger.agent }}
+  JAEGER_AGENT_HOST: {{ .Values.jaeger.agentHost }}
+  JAEGER_AGENT_PORT: {{ .Values.jaeger.agentPort }}
+  {{- end }}
+  {{- if .Values.jaeger.endpoint }}
+  JAEGER_ENDPOINT: {{ .Values.jaeger.endpoint }}
+  {{- end }}
+  {{- if .Values.jaeger.reporter }}
+  JAEGER_REPORTER_LOG_SPANS: {{ .Values.jaeger.reporter.logSpans }}
+  JAEGER_REPORTER_MAX_QUEUE_SIZE: {{ .Values.jaeger.reporter.maxQueueSize }}
+  JAEGER_REPORTER_FLUSH_INTERVAL: {{ .Values.jaeger.reporter.flushInterval }}
+  {{- end }}
+  {{- if .Values.jaeger.sampler }}
+  JAEGER_SAMPLER_TYPE: {{ .Values.jaeger.sampler.type }}
+  JAEGER_SAMPLER_PARAM: {{ .Values.jaeger.sampler.param }}
+  JAEGER_SAMPLER_MANAGER_HOST_PORT: {{ .Values.jaeger.sampler.managerHostPort }}
+  JAEGER_SAMPLER_REFRESH_INTERVAL: {{ .Values.jaeger.sampler.refreshInterval }}
+  JAEGER_SAMPLER_MAX_OPERATIONS: {{ .Values.jaeger.sampler.maxOperations }}
+  {{- end }}
+  {{- if .Values.jaeger.propagation }}
+  JAEGER_PROPAGATION: {{ .Values.jaeger.propagation }}
+  {{- end }}
+  {{- if .Values.jaeger.traceId128bit }}
+  JAEGER_TRACEID_128BIT: {{ .Values.jaeger.traceId128bit }}
+  {{- end }}
+  {{- if .Values.jaeger.rpcMetrics }}
+  JAEGER_RPC_METRICS: {{ .Values.jaeger.rpcMetrics }}
+  {{- end }}
+{{- end }}

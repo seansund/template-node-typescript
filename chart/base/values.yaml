@@ -45,3 +45,29 @@ partOf: ""
 connectsTo: ""
 
 runtime: nodejs
+
+jaeger:
+  disabled: true
+  create: true
+  agent:
+    host: ""
+    port: ""
+  endpoint: ""
+  authToken: ""
+  user: ""
+  password: ""
+  serviceName: ""
+  tags: ""
+  reporter:
+    logSpans: ""
+    maxQueueSize: ""
+    flushInterval: ""
+  sampler:
+    type: ""
+    param: ""
+    managerHostPort: ""
+    refreshInterval: ""
+    maxOperations: ""
+  propagation: ""
+  rpcMetrics: ""
+  traceId128bit: ""
