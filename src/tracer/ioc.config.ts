@@ -1,8 +1,12 @@
 import {ContainerConfiguration, ObjectFactory, Scope} from 'typescript-ioc';
 import {TracerApi} from './tracer.api';
 
-const useJaeger: boolean = process.env.JAEGER_ENABLED === "true";
-const factory: ObjectFactory = useJaeger ? require('./jaeger-tracer').default : require('./logger-tracer').default;
+const isJaegerConfigured: () => boolean = () => {
+  return !!process.env.JAEGER_AGENT_HOST || !!process.env.JAEGER_ENDPOINT;
+}
+const factory: ObjectFactory = isJaegerConfigured()
+  ? require('./jaeger-tracer').default
+  : require('./logger-tracer').default;
 
 const config: ContainerConfiguration[] = [
   {

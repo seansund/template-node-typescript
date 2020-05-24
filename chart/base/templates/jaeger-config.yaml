@@ -15,9 +15,9 @@ data:
   {{- if .Values.jaeger.disabled }}
   JAEGER_DISABLED: {{ .Values.jaeger.disabled }}
   {{- end }}
-  {{- if .Values.jaeger.agent }}
-  JAEGER_AGENT_HOST: {{ .Values.jaeger.agentHost }}
-  JAEGER_AGENT_PORT: {{ .Values.jaeger.agentPort }}
+  {{- if and .Values.jaeger.agent .Values.jaeger.agent.host }}
+  JAEGER_AGENT_HOST: {{ .Values.jaeger.agent.host }}
+  JAEGER_AGENT_PORT: {{ .Values.jaeger.agent.port }}
   {{- end }}
   {{- if .Values.jaeger.endpoint }}
   JAEGER_ENDPOINT: {{ .Values.jaeger.endpoint }}

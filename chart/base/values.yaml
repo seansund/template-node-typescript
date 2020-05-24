@@ -51,7 +51,7 @@ jaeger:
   create: true
   agent:
     host: ""
-    port: ""
+    port: 9411
   endpoint: ""
   authToken: ""
   user: ""

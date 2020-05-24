@@ -69,13 +69,3 @@ Create chart name and version as used by the chart label.
 {{- printf "" -}}
 {{- end -}}
 {{- end -}}
-
-{{- define "jaeger.enabled" -}}
-{{- $jaegerDisabled := default "false" .Values.jaeger.disabled -}}
-{{- if eq $jaegerDisabled "true" }}
-{{- "false" -}}
-{{- else -}}
-{{- "true" -}}
-{{- end -}}
-{{- end -}}
-
