@@ -3,7 +3,7 @@ import {Inject} from 'typescript-ioc';
 import {HelloWorldApi} from '../services';
 import {TracerApi} from '../tracer';
 import {Span, SpanOptions} from 'opentracing';
-import {infoEvent, responseEvent, traceError, traceResponse} from '../util/opentracing/formatters';
+import {infoEvent, responseEvent, traceError, traceResponse, traceStart} from '../util/opentracing/formatters';
 
 @Path('/hello')
 export class HelloWorldController {
@@ -24,7 +24,7 @@ export class HelloWorldController {
     const span: Span = this.startSpan('sayHelloToUnknownUser');
 
     try {
-      span.log(infoEvent('Saying hello to someone'));
+      traceStart(span);
 
       const response: string = await this.service.greeting();
 
@@ -32,9 +32,7 @@ export class HelloWorldController {
 
       return response;
     } catch (error) {
-      traceError(span, error);
-
-      throw error;
+      traceError(span, error, true);
     } finally {
       span.finish();
     }
@@ -46,7 +44,7 @@ export class HelloWorldController {
     const span: Span = this.startSpan('sayHello', {'pathParam.name': name});
 
     try {
-      span.log(infoEvent(`Saying hello to ${name}`));
+      traceStart<{name: string}>(span, {name});
 
       const response: string = await this.service.greeting(name);
 
@@ -54,9 +52,7 @@ export class HelloWorldController {
 
       return response;
     } catch (error) {
-      traceError(span, error);
-
-      throw error;
+      traceError(span, error, true);
     } finally {
       span.finish();
     }

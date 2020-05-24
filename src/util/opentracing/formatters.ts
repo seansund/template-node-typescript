@@ -1,11 +1,19 @@
 import {Span, Tags} from 'opentracing';
 
-export function traceError(span: Span, error: Error, message?: string, context?: any) {
+export function traceError(span: Span, error: Error, reThrow?: boolean, message?: string, context?: any) {
   span.setTag(Tags.ERROR, true);
   span.log(errorEvent(message, context, error));
+
+  if (reThrow) {
+    throw error;
+  }
 }
 
-export function traceResponse(span: Span, context: {response: any}) {
+export function traceStart<T = any>(span: Span, context?: T) {
+  span.log(responseEvent('Start', context));
+}
+
+export function traceResponse<T extends {response: any}>(span: Span, context: T) {
   span.log(responseEvent('Response', context));
 }
 

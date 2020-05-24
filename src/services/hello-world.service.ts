@@ -3,7 +3,7 @@ import {Inject} from 'typescript-ioc';
 
 import {HelloWorldApi} from './hello-world.api';
 import {TracerApi} from '../tracer';
-import {infoEvent} from '../util/opentracing/formatters';
+import {infoEvent, traceResponse, traceStart} from '../util/opentracing/formatters';
 
 export class HelloWorldService implements HelloWorldApi {
   @Inject
@@ -16,12 +16,16 @@ export class HelloWorldService implements HelloWorldApi {
   }
 
   async greeting(name: string = 'World'): Promise<string> {
-    const span: Span = this.startSpan('greeting', {name})
+    const span: Span = this.startSpan('greeting');
 
     try {
-      span.log(infoEvent(`Generating greeting for ${name}`));
+      traceStart(span, {name});
 
-      return `Hello, ${name}!`;
+      const result = `Hello, ${name}!`;
+
+      traceResponse(span, {response: result});
+
+      return result;
     } finally {
       span.finish();
     }
